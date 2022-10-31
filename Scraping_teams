@@ -9,72 +9,43 @@ league_names = ['France','England','Italy','Spain','Germany']
 
 url_start = 'https://www.soccerassociation.com/{}/index.htm'
 
+IdsFr = ['614','1530','57','378','1815','64','65','217','66','219','69','70','71','72','73','379','74','76','1809','294']
+ids_eng = ['1','2','1943','1925','1808','5','1799','7','144','8','95','9','10','11','13','14','17','18','19','110']
+Ids_It = ['39','189','111434','1746','110374','44','45','46','347','47','111811','48','52','110373','1837','111974','110741','54','55','206']
+Ids_Sp = ['1861','448','240','241','450','1968','468','452','1860','110062','453','479','480','449','243','457','481','461','462','483']
+IdsGr = ['31','1831','32','21','22','23','1824','100409','34','169','166','112172','25','38','10029','36','160','175']
+Ids_ = [IdsFr,ids_eng,Ids_It,Ids_Sp,IdsGr]
+
 for league in leagues:
     url = url_start.format(league)
     data = requests.get(url)
     with open("C:/Users/hp/Desktop/fifa _project/{}.html".format(league), "w+", encoding="utf-8") as f:
         f.write(data.text)
 
- with open("C:/Users/hp/Desktop/fifa _project/0.html") as f:
+k=0
+for i in leagues:
+    with open("C:/Users/hp/Desktop/fifa _project/{}.html".format(i)) as f:
          page = f.read()
-soup = BeautifulSoup(page, 'html.parser')
-england_table = soup.find('table', class_="flL qtb b")
-england_table_df = pd.read_html(str(england_table))[0]
-england_table_df.columns = ['nan1','Rank','nan2','Club_Name','Points']
-england_table_df = england_table_df.sort_values(['Club_Name'])
-ids = ['1','2','1943','1925','1808','5','1799','7','144','8','95','9','10','11','13','14','17','18','19','110']
-england_table_df['Club_ID'] = ids
-england_table_df.to_csv('England.csv')
-
- with open("C:/Users/hp/Desktop/fifa _project/8.html") as f:
-         page = f.read()
-soup = BeautifulSoup(page, 'html.parser')
-France_table = soup.find('table', class_="flL qtb b")
-France_table_df = pd.read_html(str(France_table))[0]
-France_table_df.columns = ['nan1','Rank','nan2','Club_Name','Points']
-France_table_df = France_table_df.sort_values(['Club_Name'])
-IdsFr = ['614','1530','57','378','1815','64','65','217','66','219','69','70','71','72','73','379','74','76','1809','294']
-France_table_df['Club_ID'] = IdsFr
-France_table_df.to_csv('France.csv')
-
- with open("C:/Users/hp/Desktop/fifa _project/2.html") as f:
-         page = f.read()
-soup = BeautifulSoup(page, 'html.parser')
-Italy_table = soup.find('table', class_="flL qtb b")
-Italy_table_df = pd.read_html(str(Italy_table))[0]
-Italy_table_df.columns = ['nan1','Rank','nan2','Club_Name','Points']
-Italy_table_df = Italy_table_df.sort_values(['Club_Name'])
-Italy_table_df
-IdsIt = ['39','189','111434','1746','110374','44','45','46','347','47','111811','48','52','110373','1837','111974','110741','54','55','206']
-Italy_table_df['Club_ID'] = IdsIt
-Italy_table_df.to_csv('Italy.csv')
-
- with open("C:/Users/hp/Desktop/fifa _project/9.html") as f:
-         page = f.read()
-soup = BeautifulSoup(page, 'html.parser')
-Spain_table = soup.find('table', class_="flL qtb b")
-Spain_table_df = pd.read_html(str(Spain_table))[0]
-Spain_table_df.columns = ['nan1','Rank','nan2','Club_Name','Points']
-Spain_table_df = Spain_table_df.sort_values(['Club_Name'])
-IdsSp = ['1861','448','240','241','450','1968','468','452','1860','110062','453','479','480','449','243','457','481','461','462','483']
-Spain_table_df['Club_ID'] = IdsSp
-Spain_table_df.to_csv('Spain.csv')
-
- with open("C:/Users/hp/Desktop/fifa _project/32.html") as f:
-         page = f.read()
-soup = BeautifulSoup(page, 'html.parser')
-Germany_table = soup.find('table', class_="flL qtb b")
-Germany_table_df = pd.read_html(str(Germany_table))[0]
-Germany_table_df.columns = ['nan1','Rank','nan2','Club_Name','Points']
-Germany_table_df = Germany_table_df.sort_values(['Club_Name'])
-IdsGr = ['31','1831','32','21','22','23','1824','100409','34','169','166','112172','25','38','10029','36','160','175']
-Germany_table_df['Club_ID'] = IdsGr
-Germany_table_df.to_csv('Germany.csv')
+    soup = BeautifulSoup(page, 'html.parser')
+    table = soup.find('table', class_="flL qtb b")
+    table_df = pd.read_html(str(table))[0]
+    table_df.columns = ['nan1','Rank','nan2','Club_Name','Points']
+    table_df = table_df.sort_values(['Club_Name'])
+    table_df['Club_ID'] = Ids_[k]
+    table_df.to_csv('{}.csv'.format(league_names[k]))
+    k+=1
 
 driver = webdriver.Chrome(executable_path = "C:/Users/hp/Desktop/fifa _project/chromedriver")
 
+IdsFr = ['614','1530','57','378','1815','64','65','217','66','219','69','70','71','72','73','379','74','--','76','1809','294']
+ids_eng = ['1','2','1943','1925','1808','5','1799','7','144','8','95','9','10','11','13','14','17','00','18','19','110']
+Ids_It = ['39','189','111434','1746','110374','206','44','45','46','347','47','111811','48','52','110373','1837','111974','110741','--','54','55']
+Ids_Sp = ['1861','448','240','241','449','450','1968','468','452','1860','110062','453','479','480','243','457','481','--','461','462','483']
+IdsGr = ['100409','21','160','22','1824','25','166','10029','31','32','23','169','112172','34','---','36','1831','38','175']
+Ids_ = [IdsFr,ids_eng,Ids_It,Ids_Sp,IdsGr]
 leagues = ['20','9','12','11','13']
 league_names = ['Bundesliga-Stats','Premier-League-Stats','La-Liga-Stats','Serie-A-Stats','Ligue-1-Stats']
+Ids_ = [IdsGr,ids_eng,Ids_Sp,Ids_It,IdsFr]
 
 url1 = 'https://fbref.com/en/comps/{}/playingtime/{}'
 
@@ -87,112 +58,26 @@ for leagueid,league in zip(leagues,league_names):
     with open("C:/Users/hp/Desktop/fifa _project/{}.html".format(league), "w+",encoding="utf-8") as f:
         f.write(driver.page_source)
 
-with open("C:/Users/hp/Desktop/fifa _project/Premier-League-Stats.html",encoding="utf-8") as f:
-         page = f.read()
-soup = BeautifulSoup(page, 'html.parser')
-players = soup.find(id="stats_playing_time")
-player_df = pd.read_html(str(players))[0]
-player_df.columns = range(0,30)
-player_df = player_df.sort_values(4, axis = 0)
-player_df = player_df.iloc[:,0:10]
-player_df.columns= ['x','Player_name','Nationality','Pos','Team','xx','xxx','Matches','MP','yy']
-player_df.index = range(1,len(player_df.index)+1)
-teamIds = ['1','2','1943','1925','1808','5','1799','7','144','8','95','9','10','11','13','14','17','00','18','19','110']
-teams = player_df['Team'].unique()
-teams = teams.tolist()
-new_list = []
-for i in (player_df['Team']):
-    for j in teams:
-        if i == j:
-            k= teams.index(j)
-            new_list.append(teamIds[k])
-player_df['teamid'] = new_list
-player_df.to_csv("Premier-League-Stats.csv")
-
-with open("C:/Users/hp/Desktop/fifa _project/La-Liga-Stats.html",encoding="utf-8") as f:
-         page = f.read()
-soup = BeautifulSoup(page, 'html.parser')
-players = soup.find(id="stats_playing_time")
-player_df = pd.read_html(str(players))[0]
-player_df.columns = range(0,30)
-player_df = player_df.sort_values(4, axis = 0)
-player_df = player_df.iloc[:,0:10]
-player_df.columns= ['x','Player_name','Nationality','Pos','Team','xx','xxx','Matches','MP','yy']
-player_df.index = range(1,len(player_df.index)+1)
-teamIds = ['1861','448','240','241','449','450','1968','468','452','1860','110062','453','479','480','243','457','481','--','461','462','483']
-teams = player_df['Team'].unique()
-teams = teams.tolist()
-new_list = []
-for i in (player_df['Team']):
-    for j in teams:
-        if i == j:
-            k= teams.index(j)
-            new_list.append(teamIds[k])
-player_df['teamid'] = new_list
-player_df.to_csv("La-Liga-Stats.csv")
-
-with open("C:/Users/hp/Desktop/fifa _project/Serie-A-Stats.html",encoding="utf-8") as f:
-         page = f.read()
-soup = BeautifulSoup(page, 'html.parser')
-players = soup.find(id="stats_playing_time")
-player_df = pd.read_html(str(players))[0]
-player_df.columns = range(0,30)
-player_df = player_df.sort_values(4, axis = 0)
-player_df = player_df.iloc[:,0:10]
-player_df.columns= ['x','Player_name','Nationality','Pos','Team','xx','xxx','Matches','MP','yy']
-player_df.index = range(1,len(player_df.index)+1)
-teamIds = ['39','189','111434','1746','110374','206','44','45','46','347','47','111811','48','52','110373','1837','111974','110741','--','54','55']
-teams = player_df['Team'].unique()
-teams = teams.tolist()
-new_list = []
-for i in (player_df['Team']):
-    for j in teams:
-        if i == j:
-            k= teams.index(j)
-            new_list.append(teamIds[k])
-player_df['teamid'] = new_list
-player_df.to_csv("Serie-A-Stats.csv")
-
-with open("C:/Users/hp/Desktop/fifa _project/Ligue-1-Stats.html",encoding="utf-8") as f:
-         page = f.read()
-soup = BeautifulSoup(page, 'html.parser')
-players = soup.find(id="stats_playing_time")
-player_df = pd.read_html(str(players))[0]
-player_df.columns = range(0,30)
-player_df = player_df.sort_values(4, axis = 0)
-player_df = player_df.iloc[:,0:10]
-player_df.columns= ['x','Player_name','Nationality','Pos','Team','xx','xxx','Matches','MP','yy']
-player_df.index = range(1,len(player_df.index)+1)
-teamIds = ['614','1530','57','378','1815','64','65','217','66','219','69','70','71','72','73','379','74','--','76','1809','294']
-teams = player_df['Team'].unique()
-teams = teams.tolist()
-new_list = []
-for i in (player_df['Team']):
-    for j in teams:
-        if i == j:
-            k= teams.index(j)
-            new_list.append(teamIds[k])
-player_df['teamid'] = new_list
-player_df.to_csv("Ligue-1-Stats.csv")
-
-with open("C:/Users/hp/Desktop/fifa _project/Bundesliga-Stats.html",encoding="utf-8") as f:
-         page = f.read()
-soup = BeautifulSoup(page, 'html.parser')
-players = soup.find(id="stats_playing_time")
-player_df = pd.read_html(str(players))[0]
-player_df.columns = range(0,30)
-player_df = player_df.sort_values(4, axis = 0)
-player_df = player_df.iloc[:,0:10]
-player_df.columns= ['x','Player_name','Nationality','Pos','Team','xx','xxx','Matches','MP','yy']
-player_df.index = range(1,len(player_df.index)+1)
-teamIds = ['100409','21','160','22','1824','25','166','10029','31','32','23','169','112172','34','---','36','1831','38','175']
-teams = player_df['Team'].unique()
-teams = teams.tolist()
-new_listt = []
-for i in (player_df['Team']):
-    for j in teams:
-        if i == j:
-            k= teams.index(j)
-            new_listt.append(teamIds[k])
-player_df['teamid'] = new_listt
-player_df.to_csv("Bundesliga-Stats.csv")
+z = 0
+for i in leagues:
+        with open("C:/Users/hp/Desktop/fifa _project/{}.html".format(league_names[z]),encoding="utf-8") as f:
+            page = f.read()
+        soup = BeautifulSoup(page, 'html.parser')
+        players = soup.find(id="stats_playing_time")
+        player_df = pd.read_html(str(players))[0]
+        player_df.columns = range(0,30)
+        player_df = player_df.sort_values(4, axis = 0)
+        player_df = player_df.iloc[:,0:10]
+        player_df.columns= ['x','Player_name','Nationality','Pos','Team','xx','xxx','Matches','MP','yy']
+        player_df.index = range(1,len(player_df.index)+1)
+        teams = player_df['Team'].unique()
+        teams = teams.tolist()
+        new_list = []
+        for l in (player_df['Team']):
+            for j in teams:
+                if l == j:
+                    k= teams.index(j)
+                    new_list.append(Ids_[z][k])
+        player_df['teamid'] = new_list
+        player_df.to_csv("{}.csv".format(league_names[z]))
+        z+=0
